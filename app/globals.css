@@ -1,26 +1,27 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Curio palette — one warm theme (no dark mode). Tokens become Tailwind
+   utilities: bg-background, text-foreground, bg-primary, text-muted, etc. */
+@theme {
+  --color-background: #f6f2e9; /* cream page */
+  --color-card: #fffdf8; /* card surface */
+  --color-foreground: #2a2722; /* ink */
+  --color-muted: #6f6657; /* secondary text */
+  --color-border: #e7dfce; /* hairline */
+  --color-primary: #2f4a3b; /* deep green */
+  --color-primary-foreground: #f7f3ea;
+  --color-accent: #d8c39a; /* tan CTA */
+  --color-accent-foreground: #2a2722;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-fraunces);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
 }

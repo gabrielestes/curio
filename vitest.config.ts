@@ -1,10 +1,21 @@
 import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const root = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    // Mirror the tsconfig "@/*" path alias so tests resolve the same imports.
+    alias: { '@': root },
+  },
   test: {
-    // The engine is pure TypeScript — no DOM needed. Component tests (M3) will
-    // opt into jsdom per-file once the UI exists.
+    // Engine/store tests run in node; component tests opt into jsdom per-file
+    // via a `// @vitest-environment jsdom` pragma.
     environment: 'node',
-    include: ['{lib,data}/**/*.test.ts'],
+    include: ['{app,components,data,lib}/**/*.test.{ts,tsx}'],
+    setupFiles: ['./vitest.setup.ts'],
   },
 })

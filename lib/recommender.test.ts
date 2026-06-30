@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createEngine, WEIGHTS } from './recommender'
+import { createEngine } from './recommender'
 import type { Product, SessionSignals } from './types'
 
 function makeProduct(over: Partial<Product> & Pick<Product, 'id'>): Product {
@@ -176,9 +176,233 @@ describe('explain', () => {
   })
 })
 
-describe('WEIGHTS', () => {
-  it('orders favorite > cart > view', () => {
-    expect(WEIGHTS.favorite).toBeGreaterThan(WEIGHTS.cart)
-    expect(WEIGHTS.cart).toBeGreaterThan(WEIGHTS.view)
+describe('interaction weighting (behavioral)', () => {
+  // Two symmetric source→candidate pairs with equal base similarity (identical
+  // vectors; all prices equal so the price feature is 0). The only thing that
+  // can break the tie between candidates is the interaction weight.
+  const fixture: Product[] = [
+    makeProduct({ id: 'srcA', category: 'Tech', tags: ['a', 'b'], price: 50 }),
+    makeProduct({ id: 'candA', category: 'Tech', tags: ['a', 'b'], price: 50 }),
+    makeProduct({ id: 'srcB', category: 'Home', tags: ['c', 'd'], price: 50 }),
+    makeProduct({ id: 'candB', category: 'Home', tags: ['c', 'd'], price: 50 }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('weights a cart signal above an equally-similar view signal', () => {
+    const recs = engine.recommendForSession({
+      viewedIds: ['srcA'], // → candA, weight 1
+      cartIds: ['srcB'], // → candB, weight 2
+      favoritedIds: [],
+    })
+    expect(recs[0].product.id).toBe('candB')
+  })
+
+  it('weights a favorite signal above an equally-similar cart signal', () => {
+    const recs = engine.recommendForSession({
+      viewedIds: [],
+      cartIds: ['srcB'], // → candB, weight 2
+      favoritedIds: ['srcA'], // → candA, weight 3
+    })
+    expect(recs[0].product.id).toBe('candA')
+  })
+})
+
+describe('multi-signal weight accumulation', () => {
+  // srcStrong is viewed AND favorited (1 + 3 = 4); srcWeak is favorited only (3).
+  // candWeak has the higher reviewCount, so an overwrite-instead-of-add bug
+  // (which would tie both sources at 3) would surface candWeak first.
+  const fixture: Product[] = [
+    makeProduct({
+      id: 'srcStrong',
+      category: 'Tech',
+      tags: ['a', 'b'],
+      price: 50,
+    }),
+    makeProduct({
+      id: 'candStrong',
+      category: 'Tech',
+      tags: ['a', 'b'],
+      price: 50,
+      reviewCount: 1,
+    }),
+    makeProduct({
+      id: 'srcWeak',
+      category: 'Home',
+      tags: ['c', 'd'],
+      price: 50,
+    }),
+    makeProduct({
+      id: 'candWeak',
+      category: 'Home',
+      tags: ['c', 'd'],
+      price: 50,
+      reviewCount: 999,
+    }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('adds weights when one item carries multiple signals (view + favorite = 4)', () => {
+    const recs = engine.recommendForSession({
+      viewedIds: ['srcStrong'],
+      cartIds: [],
+      favoritedIds: ['srcStrong', 'srcWeak'],
+    })
+    expect(recs[0].product.id).toBe('candStrong')
+  })
+})
+
+describe('source attribution', () => {
+  // cand shares tags with both sources; strong is favorited (3), weak viewed (1),
+  // so strong must win attribution regardless of signal order.
+  const fixture: Product[] = [
+    makeProduct({
+      id: 'strong',
+      category: 'Accessories',
+      tags: ['t1', 't2'],
+      price: 50,
+    }),
+    makeProduct({
+      id: 'weak',
+      category: 'Accessories',
+      tags: ['t1', 't3'],
+      price: 50,
+    }),
+    makeProduct({
+      id: 'cand',
+      category: 'Accessories',
+      tags: ['t1', 't2', 't3'],
+      price: 50,
+    }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('attributes to the strongest weighted contributor and names it', () => {
+    const recs = engine.recommendForSession({
+      viewedIds: ['weak'],
+      cartIds: [],
+      favoritedIds: ['strong'],
+    })
+    expect(recs[0].product.id).toBe('cand')
+    expect(recs[0].sourceId).toBe('strong')
+    expect(recs[0].reason).toContain('strong')
+  })
+})
+
+describe('recommendForSession — popularity fallback when nothing matches', () => {
+  // 'lonely' is orthogonal to the rest (unique category + tags, equal price), so
+  // interacting with it yields all-zero candidate scores → the second fallback.
+  const fixture: Product[] = [
+    makeProduct({
+      id: 'lonely',
+      category: 'Home',
+      tags: ['z1', 'z2'],
+      price: 50,
+      reviewCount: 5,
+    }),
+    makeProduct({
+      id: 'p1',
+      category: 'Tech',
+      tags: ['a', 'b'],
+      price: 50,
+      reviewCount: 200,
+    }),
+    makeProduct({
+      id: 'p2',
+      category: 'Bags',
+      tags: ['c', 'd'],
+      price: 50,
+      reviewCount: 100,
+    }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('returns popularity recs (excluding the source) when history matches nothing', () => {
+    const recs = engine.recommendForSession({
+      viewedIds: [],
+      cartIds: [],
+      favoritedIds: ['lonely'],
+    })
+    expect(recs.map((r) => r.product.id)).toEqual(['p1', 'p2'])
+    expect(recs.every((r) => r.reason === 'Popular right now')).toBe(true)
+    expect(recs.every((r) => r.sourceId === null)).toBe(true)
+    expect(recs.map((r) => r.product.id)).not.toContain('lonely')
+  })
+})
+
+describe('popular', () => {
+  const engine = createEngine(products)
+
+  it('ranks by review count and labels every item', () => {
+    const recs = engine.popular(3)
+    expect(recs.map((r) => r.product.id)).toEqual(['notebook', 'mug', 'tote'])
+    expect(recs.every((r) => r.reason === 'Popular right now')).toBe(true)
+    expect(recs.every((r) => r.sourceId === null)).toBe(true)
+  })
+
+  it('honors excludeIds and n', () => {
+    expect(engine.popular(2)).toHaveLength(2)
+    expect(engine.popular(3, ['notebook']).map((r) => r.product.id)).toEqual([
+      'mug',
+      'tote',
+      'wallet',
+    ])
+  })
+
+  it('breaks review-count ties by id ascending', () => {
+    const tied = createEngine([
+      makeProduct({ id: 'bbb', reviewCount: 100 }),
+      makeProduct({ id: 'aaa', reviewCount: 100 }),
+    ])
+    expect(tied.popular().map((r) => r.product.id)).toEqual(['aaa', 'bbb'])
+  })
+})
+
+describe('similarTo — zero-similarity exclusion', () => {
+  const fixture: Product[] = [
+    makeProduct({ id: 's', category: 'Tech', tags: ['a', 'b'], price: 50 }),
+    makeProduct({
+      id: 'related',
+      category: 'Tech',
+      tags: ['a', 'c'],
+      price: 50,
+    }),
+    makeProduct({
+      id: 'orthogonal',
+      category: 'Home',
+      tags: ['x', 'y'],
+      price: 50,
+    }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('never returns a zero-similarity item, even when n exceeds neighbour count', () => {
+    const ids = engine.similarTo('s', 10).map((r) => r.product.id)
+    expect(ids).toContain('related')
+    expect(ids).not.toContain('orthogonal')
+  })
+})
+
+describe('explain — fallback reason branches', () => {
+  const fixture: Product[] = [
+    makeProduct({
+      id: 'wallet',
+      category: 'Accessories',
+      tags: ['leather', 'brown'],
+    }),
+    makeProduct({
+      id: 'belt',
+      category: 'Accessories',
+      tags: ['canvas', 'grey'],
+    }),
+    makeProduct({ id: 'mug', category: 'Kitchen', tags: ['ceramic'] }),
+  ]
+  const engine = createEngine(fixture)
+
+  it('names the shared category when no tags overlap', () => {
+    expect(engine.explain('belt', 'wallet')).toBe('Same category: Accessories')
+  })
+
+  it('falls back to "Similar style" when nothing overlaps', () => {
+    expect(engine.explain('mug', 'wallet')).toBe('Similar style')
   })
 })

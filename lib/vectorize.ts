@@ -30,7 +30,8 @@ function uniqueSorted(values: string[]): string[] {
 export function buildVectorSpace(products: Product[]): VectorSpace {
   const categories = uniqueSorted(products.map((p) => p.category))
   const tags = uniqueSorted(products.flatMap((p) => p.tags))
-  const prices = products.map((p) => p.price)
+  // Ignore non-finite prices so one bad value can't make the whole space NaN.
+  const prices = products.map((p) => p.price).filter((n) => Number.isFinite(n))
   const minPrice = prices.length ? Math.min(...prices) : 0
   const maxPrice = prices.length ? Math.max(...prices) : 0
   return {
@@ -44,6 +45,8 @@ export function buildVectorSpace(products: Product[]): VectorSpace {
 
 /** Min–max normalize price into [0, 1]; collapses to 0 when all prices match. */
 function normalizePrice(price: number, space: VectorSpace): number {
+  // A NaN/Infinity price would poison every cosine score it touches.
+  if (!Number.isFinite(price)) return 0
   const span = space.maxPrice - space.minPrice
   if (span === 0) return 0
   const clamped = Math.min(Math.max(price, space.minPrice), space.maxPrice)

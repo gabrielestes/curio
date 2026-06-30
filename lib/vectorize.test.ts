@@ -85,4 +85,33 @@ describe('vectorize', () => {
     expect(v[v.length - 1]).toBe(0)
     expect(v.every((n) => Number.isFinite(n))).toBe(true)
   })
+
+  it('treats a non-finite price as 0 and keeps the vector finite', () => {
+    const space = buildVectorSpace(fixture)
+    const v = vectorize(
+      makeProduct({
+        id: 'weird',
+        category: 'Bags',
+        tags: ['leather'],
+        price: NaN,
+      }),
+      space,
+    )
+    expect(v.every((n) => Number.isFinite(n))).toBe(true)
+    expect(v[v.length - 1]).toBe(0)
+  })
+})
+
+describe('buildVectorSpace with non-finite prices', () => {
+  it('ignores non-finite prices so the space stays finite', () => {
+    const space = buildVectorSpace([
+      makeProduct({ id: 'a', price: 10 }),
+      makeProduct({ id: 'b', price: NaN }),
+      makeProduct({ id: 'c', price: 30 }),
+    ])
+    expect(Number.isFinite(space.minPrice)).toBe(true)
+    expect(Number.isFinite(space.maxPrice)).toBe(true)
+    expect(space.minPrice).toBe(10)
+    expect(space.maxPrice).toBe(30)
+  })
 })

@@ -136,17 +136,28 @@ export function createEngine(products: Product[]): Engine {
       .filter((product) => !interacted.has(product.id))
       .map((product) => {
         let score = 0
-        let bestSourceId: string | null = null
-        let bestContribution = 0
+        // Attribute the rec to its strongest positive contributor. Ties are
+        // broken by (contribution, then weight, then id) so attribution is
+        // stable regardless of how the client ordered the signal arrays, and a
+        // favorite outranks a view on an equal contribution.
+        let best: { id: string; contribution: number; weight: number } | null =
+          null
         for (const [sourceId, weight] of weightById) {
           const contribution = weight * (matrix[sourceId]?.[product.id] ?? 0)
           score += contribution
-          if (contribution > bestContribution) {
-            bestContribution = contribution
-            bestSourceId = sourceId
+          if (contribution <= 0) continue
+          if (
+            best === null ||
+            contribution > best.contribution ||
+            (contribution === best.contribution && weight > best.weight) ||
+            (contribution === best.contribution &&
+              weight === best.weight &&
+              sourceId < best.id)
+          ) {
+            best = { id: sourceId, contribution, weight }
           }
         }
-        return { product, score, sourceId: bestSourceId }
+        return { product, score, sourceId: best ? best.id : null }
       })
       .filter((s) => s.score > 0)
       .sort(compare)

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { catalog } from './catalog'
 import { buildVectorSpace } from '../lib/vectorize'
+import { engine } from '../lib/recommender'
 
 describe('catalog', () => {
   it('contains exactly 12 products', () => {
@@ -27,5 +28,21 @@ describe('catalog', () => {
         (p) => Number.isInteger(p.reviewCount) && p.reviewCount > 0,
       ),
     ).toBe(true)
+  })
+})
+
+describe('catalog clustering (real engine)', () => {
+  it('surfaces other leather goods as neighbours of the leather wallet', () => {
+    const ids = engine.similarTo('leather-wallet', 4).map((r) => r.product.id)
+    const leatherGoods = ['leather-tote', 'field-watch', 'leather-backpack']
+    expect(leatherGoods.some((id) => ids.includes(id))).toBe(true)
+  })
+
+  it('gives every product at least one neighbour with positive similarity', () => {
+    for (const product of catalog) {
+      expect(
+        engine.similarTo(product.id, catalog.length).length,
+      ).toBeGreaterThan(0)
+    }
   })
 })

@@ -1,3 +1,11 @@
+# Curio
+
+[![CI](https://github.com/gabrielestes/curio/actions/workflows/ci.yml/badge.svg)](https://github.com/gabrielestes/curio/actions/workflows/ci.yml)
+
+A personalized storefront whose differentiator is an explainable, from-scratch
+content-based recommendation engine. Every recommendation shows _why_ you're
+seeing it.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

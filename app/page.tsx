@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { engine } from '@/lib/recommender'
 import { ProductCard } from '@/components/ProductCard'
+import { RecommendedForYou } from '@/components/RecommendedForYou'
 
 function Hero() {
   return (
@@ -30,13 +31,16 @@ function Hero() {
 }
 
 export default function HomePage() {
-  // Bestselling = the engine's popularity ranking (R4 fallback surface). The
-  // personalized "Recommended for you" rail plugs in here in M4.
+  // Bestselling = the engine's popularity ranking. It doubles as the R4
+  // fallback: <RecommendedForYou> above hides itself until the shopper has
+  // session history, so a fresh visit lands on this stable popular list.
   const bestselling = engine.popular(8)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
       <Hero />
+
+      <RecommendedForYou />
 
       <section className="mt-10">
         <div className="flex items-baseline justify-between">

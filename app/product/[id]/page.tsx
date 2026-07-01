@@ -1,10 +1,12 @@
 import { notFound } from 'next/navigation'
 import { catalog } from '@/data/catalog'
+import { engine } from '@/lib/recommender'
 import { formatPrice, formatRating } from '@/lib/format'
 import { ProductImage } from '@/components/ProductImage'
 import { FavoriteButton } from '@/components/FavoriteButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import { ViewTracker } from '@/components/ViewTracker'
+import { RecommendationRail } from '@/components/RecommendationRail'
 
 export default async function ProductPage({
   params,
@@ -54,7 +56,10 @@ export default async function ProductPage({
           </div>
         </div>
       </div>
-      {/* "Similar items" rail (R3) plugs in here in M4. */}
+      <RecommendationRail
+        title="Similar items"
+        recommendations={engine.similarTo(product.id, 4)}
+      />
     </div>
   )
 }

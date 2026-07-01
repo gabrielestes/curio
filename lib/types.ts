@@ -47,3 +47,16 @@ export interface Recommendation {
    */
   sourceId: string | null
 }
+
+/**
+ * Whether a set of recommendations was steered by session signals
+ * (`'personalized'`) or fell back to popularity (`'popular'`). Lets the UI
+ * describe a rail without reading the engine-internal `score`.
+ */
+export type RecommendationKind = 'personalized' | 'popular'
+
+/** Response shape of `POST /api/recommendations` — self-describing via `kind`. */
+export interface RecommendationResponse {
+  kind: RecommendationKind
+  recommendations: Recommendation[]
+}

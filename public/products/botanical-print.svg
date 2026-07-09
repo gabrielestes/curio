@@ -1,0 +1,13 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Botanical Print</title>
+  <rect width="400" height="400" fill="#dfe6dd"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="142" y="118" width="116" height="164" rx="6"/>
+    <rect x="160" y="136" width="80" height="128" rx="2" fill="#fffdf8"/>
+    <path d="M200 252 V160"/>
+    <path d="M200 214 C182 210 172 196 168 178"/>
+    <path d="M200 214 C218 210 228 196 232 178"/>
+    <path d="M200 188 C188 184 180 172 178 158"/>
+    <path d="M200 188 C212 184 220 172 222 158"/>
+  </g>
+</svg>

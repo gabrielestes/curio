@@ -18,7 +18,7 @@ export const catalog: Product[] = [
     tags: ['leather', 'minimalist', 'everyday', 'brown'],
     rating: 4.7,
     reviewCount: 142,
-    image: '/products/leather-wallet.jpg',
+    image: '/products/leather-wallet.svg',
     blurb: 'A slim full-grain wallet that breaks in beautifully over time.',
   },
   {
@@ -29,7 +29,7 @@ export const catalog: Product[] = [
     tags: ['scented', 'cozy', 'warm', 'neutral'],
     rating: 4.6,
     reviewCount: 98,
-    image: '/products/sandalwood-candle.jpg',
+    image: '/products/sandalwood-candle.svg',
     blurb: 'Hand-poured soy wax with warm notes of sandalwood and amber.',
   },
   {
@@ -40,7 +40,7 @@ export const catalog: Product[] = [
     tags: ['minimalist', 'durable', 'neutral', 'everyday'],
     rating: 4.5,
     reviewCount: 176,
-    image: '/products/water-bottle.jpg',
+    image: '/products/water-bottle.svg',
     blurb: 'Insulated stainless steel that keeps drinks cold for 24 hours.',
   },
   {
@@ -51,7 +51,7 @@ export const catalog: Product[] = [
     tags: ['leather', 'durable', 'everyday', 'brown'],
     rating: 4.8,
     reviewCount: 128,
-    image: '/products/leather-tote.jpg',
+    image: '/products/leather-tote.svg',
     blurb: 'A roomy vegetable-tanned tote built to last a decade.',
   },
   {
@@ -62,7 +62,7 @@ export const catalog: Product[] = [
     tags: ['tech', 'premium', 'durable', 'black'],
     rating: 4.4,
     reviewCount: 96,
-    image: '/products/headphones.jpg',
+    image: '/products/headphones.svg',
     blurb: 'Over-ear active noise cancellation with 30-hour battery life.',
   },
   {
@@ -73,7 +73,7 @@ export const catalog: Product[] = [
     tags: ['cozy', 'handmade', 'neutral', 'ceramic'],
     rating: 4.9,
     reviewCount: 245,
-    image: '/products/ceramic-mug.jpg',
+    image: '/products/ceramic-mug.svg',
     blurb: 'A hefty hand-thrown mug with a speckled reactive glaze.',
   },
   {
@@ -84,7 +84,7 @@ export const catalog: Product[] = [
     tags: ['leather', 'durable', 'classic', 'everyday'],
     rating: 4.6,
     reviewCount: 116,
-    image: '/products/field-watch.jpg',
+    image: '/products/field-watch.svg',
     blurb: 'A legible military-inspired watch on a leather strap.',
   },
   {
@@ -95,7 +95,7 @@ export const catalog: Product[] = [
     tags: ['minimalist', 'neutral', 'everyday', 'paper'],
     rating: 4.7,
     reviewCount: 312,
-    image: '/products/linen-notebook.jpg',
+    image: '/products/linen-notebook.svg',
     blurb: 'Linen-wrapped covers over 192 pages of dotted ivory paper.',
   },
   {
@@ -106,7 +106,7 @@ export const catalog: Product[] = [
     tags: ['scented', 'botanical', 'neutral', 'everyday'],
     rating: 4.3,
     reviewCount: 87,
-    image: '/products/hand-soap.jpg',
+    image: '/products/hand-soap.svg',
     blurb: 'Gentle plant-based hand wash with eucalyptus and mint.',
   },
   {
@@ -117,7 +117,7 @@ export const catalog: Product[] = [
     tags: ['botanical', 'minimalist', 'neutral', 'wall-art'],
     rating: 4.5,
     reviewCount: 64,
-    image: '/products/botanical-print.jpg',
+    image: '/products/botanical-print.svg',
     blurb: 'A framed fern study printed on archival cotton rag.',
   },
   {
@@ -128,7 +128,7 @@ export const catalog: Product[] = [
     tags: ['everyday', 'durable', 'cotton', 'neutral'],
     rating: 4.2,
     reviewCount: 188,
-    image: '/products/canvas-cap.jpg',
+    image: '/products/canvas-cap.svg',
     blurb: 'A washed-canvas six-panel cap with an adjustable strap.',
   },
   {
@@ -139,7 +139,7 @@ export const catalog: Product[] = [
     tags: ['leather', 'durable', 'everyday', 'classic'],
     rating: 4.7,
     reviewCount: 154,
-    image: '/products/leather-backpack.jpg',
+    image: '/products/leather-backpack.svg',
     blurb: 'A structured rucksack in waxed leather with brass hardware.',
   },
 ]

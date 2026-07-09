@@ -1,0 +1,9 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Minimal Water Bottle</title>
+  <rect width="400" height="400" fill="#efe6d6"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="180" y="98" width="40" height="30" rx="8" fill="#d8c39a"/>
+    <rect x="166" y="138" width="68" height="164" rx="30"/>
+    <path d="M166 196 H234"/>
+  </g>
+</svg>

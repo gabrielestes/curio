@@ -1,0 +1,11 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Hand Soap</title>
+  <rect width="400" height="400" fill="#e0e6da"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M208 104 H236 V120"/>
+    <path d="M208 104 V124"/>
+    <rect x="190" y="124" width="34" height="22" rx="6"/>
+    <rect x="164" y="150" width="92" height="140" rx="22"/>
+    <rect x="182" y="200" width="56" height="52" rx="8" fill="#d8c39a"/>
+  </g>
+</svg>

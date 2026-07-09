@@ -1,0 +1,9 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Canvas Cap</title>
+  <rect width="400" height="400" fill="#ece2cf"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M146 214 A70 66 0 0 1 268 178 L272 214 Z" fill="#d8c39a"/>
+    <path d="M146 214 C120 218 108 230 114 242 C162 254 220 250 246 234"/>
+    <circle cx="200" cy="150" r="7" fill="#2a2722" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Slim Leather Wallet</title>
+  <rect width="400" height="400" fill="#ece2cf"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="160" y="130" width="100" height="46" rx="8" fill="#d8c39a"/>
+    <rect x="122" y="158" width="156" height="112" rx="18" fill="#ece2cf"/>
+    <path d="M122 206 H278"/>
+    <path d="M258 194 A18 18 0 0 1 258 238"/>
+  </g>
+</svg>

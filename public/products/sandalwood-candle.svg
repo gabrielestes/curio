@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Sandalwood Candle</title>
+  <rect width="400" height="400" fill="#e0e6da"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="138" y="182" width="124" height="98" rx="16"/>
+    <path d="M138 206 H262"/>
+    <path d="M200 206 V186"/>
+    <path d="M200 182 C222 166 222 138 200 118 C178 138 178 166 200 182 Z" fill="#d8c39a"/>
+  </g>
+</svg>

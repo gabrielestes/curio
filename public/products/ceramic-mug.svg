@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Ceramic Mug</title>
+  <rect width="400" height="400" fill="#efe6d6"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 178 H236 V254 A26 26 0 0 1 210 280 H176 A26 26 0 0 1 150 254 Z"/>
+    <path d="M236 198 H256 A26 26 0 0 1 256 250 H236"/>
+    <path d="M176 156 C186 144 176 132 186 120"/>
+    <path d="M210 156 C220 144 210 132 220 120"/>
+  </g>
+</svg>

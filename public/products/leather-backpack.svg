@@ -1,0 +1,12 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Leather Backpack</title>
+  <rect width="400" height="400" fill="#e7dcc4"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M174 152 C152 200 152 250 170 296"/>
+    <path d="M226 152 C248 200 248 250 230 296"/>
+    <path d="M152 192 A48 48 0 0 1 248 192 V266 A16 16 0 0 1 232 282 H168 A16 16 0 0 1 152 266 Z"/>
+    <path d="M186 142 A16 16 0 0 1 214 142"/>
+    <path d="M176 236 H224 V282 H176 Z"/>
+    <path d="M170 228 H230 L222 246 H178 Z" fill="#d8c39a"/>
+  </g>
+</svg>

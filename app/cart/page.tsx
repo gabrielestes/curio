@@ -48,6 +48,7 @@ export default function CartPage() {
           <li key={li.product.id} className="flex items-center gap-4 py-4">
             <ProductImage
               name={li.product.name}
+              src={li.product.image}
               className="h-16 w-16 shrink-0 rounded-xl"
             />
             <div className="min-w-0 flex-1">

@@ -1,0 +1,9 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <title>Linen Notebook</title>
+  <rect width="400" height="400" fill="#efe9db"/>
+  <g fill="none" stroke="#2a2722" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M156 126 H250 A10 10 0 0 1 260 136 V264 A10 10 0 0 1 250 274 H156 Z" fill="#d8c39a"/>
+    <path d="M174 126 V274"/>
+    <path d="M228 126 V274"/>
+  </g>
+</svg>

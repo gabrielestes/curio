@@ -23,6 +23,7 @@ export default async function ProductPage({
       <div className="grid gap-8 md:grid-cols-2">
         <ProductImage
           name={product.name}
+          src={product.image}
           className="aspect-square w-full rounded-3xl"
         />
         <div className="flex flex-col gap-4">

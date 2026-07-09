@@ -19,7 +19,11 @@ export function ProductCard({ product }: { product: Product }) {
         href={`/product/${product.id}`}
         className="flex flex-1 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
-        <ProductImage name={product.name} className="aspect-square w-full" />
+        <ProductImage
+          name={product.name}
+          src={product.image}
+          className="aspect-square w-full"
+        />
         <div className="flex flex-1 flex-col gap-0.5 p-4">
           <h3 className="font-medium text-foreground">{product.name}</h3>
           <p className="text-sm text-muted">{product.category}</p>
